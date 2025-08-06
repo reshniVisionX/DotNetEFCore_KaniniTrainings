@@ -1,0 +1,41 @@
+﻿@model IEnumerable<EFCore_MVC_CodeFirst.Models.Students>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.studName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.dept)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.studName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.dept)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.studId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.studId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.studId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
