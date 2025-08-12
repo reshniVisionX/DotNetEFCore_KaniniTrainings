@@ -21,6 +21,25 @@ namespace MVC_CodeFirst.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("MVC_CodeFirst.Models.Category", b =>
+                {
+                    b.Property<int>("categoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("categoryId"));
+
+                    b.Property<string>("categoryName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("price")
+                        .HasColumnType("int");
+
+                    b.HasKey("categoryId");
+
+                    b.ToTable("Categories");
+                });
+
             modelBuilder.Entity("MVC_CodeFirst.Models.Products", b =>
                 {
                     b.Property<int>("ProductId")

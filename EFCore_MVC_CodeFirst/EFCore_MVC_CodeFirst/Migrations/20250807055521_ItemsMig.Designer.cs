@@ -3,6 +3,7 @@ using EFCore_MVC_CodeFirst.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EFCore_MVC_CodeFirst.Migrations
 {
     [DbContext(typeof(StudentContext))]
-    partial class StudentContextModelSnapshot : ModelSnapshot
+    [Migration("20250807055521_ItemsMig")]
+    partial class ItemsMig
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,9 +49,6 @@ namespace EFCore_MVC_CodeFirst.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("studId"));
 
-                    b.Property<int>("ItemId")
-                        .HasColumnType("int");
-
                     b.Property<string>("dept")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -59,25 +59,7 @@ namespace EFCore_MVC_CodeFirst.Migrations
 
                     b.HasKey("studId");
 
-                    b.HasIndex("ItemId");
-
                     b.ToTable("students");
-                });
-
-            modelBuilder.Entity("EFCore_MVC_CodeFirst.Models.Students", b =>
-                {
-                    b.HasOne("EFCore_MVC_CodeFirst.Models.Items", "items")
-                        .WithMany("Students")
-                        .HasForeignKey("ItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("items");
-                });
-
-            modelBuilder.Entity("EFCore_MVC_CodeFirst.Models.Items", b =>
-                {
-                    b.Navigation("Students");
                 });
 #pragma warning restore 612, 618
         }

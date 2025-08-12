@@ -1,41 +1,39 @@
 ﻿@model IEnumerable<EFCore_MVC_CodeFirst.Models.Students>
+@using System.Linq;
+@using EFCore_MVC_CodeFirst.Models;
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Students List";
 }
 
-<h1>Index</h1>
+<h1>Students List</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-primary">Create New Student</a>
 </p>
-<table class="table">
+
+<table class="table table-bordered table-striped">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.studName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.dept)
-            </th>
-            <th></th>
+            <th>@Html.DisplayNameFor(m => m.First().studName)</th>
+            <th>@Html.DisplayNameFor(m => m.First().dept)</th>
+            <th>Item Name</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.studName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.dept)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.studId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.studId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.studId">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var student in Model)
+        {
+            <tr>
+                <td>@student.studName</td>
+                <td>@student.dept</td>
+                <td>@student.items?.ItemName</td> 
+                <td>
+                    <a asp-action="Edit" asp-route-id="@student.studId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@student.studId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@student.studId">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
