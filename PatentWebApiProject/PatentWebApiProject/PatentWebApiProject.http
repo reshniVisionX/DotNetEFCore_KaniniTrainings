@@ -1,0 +1,6 @@
+@PatentWebApiProject_HostAddress = http://localhost:5182
+
+GET {{PatentWebApiProject_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
