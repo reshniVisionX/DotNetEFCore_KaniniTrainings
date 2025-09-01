@@ -146,5 +146,20 @@ namespace PatentWebApiProject.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+
+        [HttpGet("/GetAnalysis/")]
+        [Authorize(Roles = "user,controller")]
+        public async Task<ActionResult<Object>> GetAnalysis()
+        {
+            try
+            {
+                var analysis = await _patentService.GetAnalysis();
+                return Ok(analysis);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
     }
 }

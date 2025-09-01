@@ -21,13 +21,18 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<ICrud<Members>, MembersRepository>();
 builder.Services.AddScoped<MembersService>();
-builder.Services.AddScoped<PatentRepository>();
-builder.Services.AddScoped<PatentService>();
-builder.Services.AddScoped<InternationalPatentRepository>();
-builder.Services.AddScoped<InternationalPatentService>();
-builder.Services.AddScoped<PatentGrantRepository>();
-builder.Services.AddScoped<PatentGrantService>();
 builder.Services.AddScoped<IToken,TokenService>();
+
+builder.Services.AddScoped<ICrud<Patent>, PatentRepository>();
+builder.Services.AddScoped<ICrud<InternationalPatent>, InternationalPatentRepository>();
+builder.Services.AddScoped<ICrud<PatentGrants>, PatentGrantRepository>();
+builder.Services.AddScoped<IPatent, PatentRepository>();
+builder.Services.AddScoped<IInPatent, InternationalPatentRepository>();
+builder.Services.AddScoped<IGrants, PatentGrantRepository>();
+builder.Services.AddScoped<PatentService>();
+builder.Services.AddScoped<InternationalPatentService>();
+builder.Services.AddScoped<PatentGrantService>();
+
 
 builder.Services.AddControllers()
     .AddNewtonsoftJson(options =>

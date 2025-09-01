@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using PatentWebApiProject.Data;
 using PatentWebApiProject.Interface;
 using PatentWebApiProject.Models;
@@ -18,18 +19,23 @@ namespace PatentWebApiProject.Repository
             {
                 throw new Exception("Member name cannot be null or empty.");
             }
-
-            var existingMember = await context.members
-                .FirstOrDefaultAsync(m => m.name == entity.name);
-
-            if (existingMember != null)
+            if (entity.role != "user")
             {
-                throw new Exception("Member with the same name already exists.");
+                throw new Exception("Role must be  'user' ");
             }
 
-            context.members.Add(entity);
-            await context.SaveChangesAsync();
-            return entity;
+                var existingMember = await context.members
+               .FirstOrDefaultAsync(m => m.name == entity.name);
+
+                if (existingMember != null)
+                {
+                    throw new Exception("Member with the same name already exists.");
+                }
+
+                context.members.Add(entity);
+                await context.SaveChangesAsync();
+                return entity;
+                  
         }
 
 
@@ -59,7 +65,7 @@ namespace PatentWebApiProject.Repository
             {
                 throw new Exception("Member with the Id does not exist");
             }
-            return await context.members.FindAsync(id);
+            return found;
         }
 
         public async Task<Members?> UpdateAsync(Members entity,int id)

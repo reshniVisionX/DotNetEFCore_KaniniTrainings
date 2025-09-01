@@ -89,5 +89,20 @@ namespace PatentWebApiProject.Controllers
                 return NotFound(new { message = ex.Message });
             }
         }
+
+        [HttpPut("updateStatus/{status}")]
+        [Authorize(Roles = "controller")]
+        public async Task<IActionResult> UpdateStatus(string status , int id)
+        {
+            try
+            {
+                var updatedPatent = await _service.UpdateStatusAsync( status,id);
+                return Ok(updatedPatent);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
     }
 }

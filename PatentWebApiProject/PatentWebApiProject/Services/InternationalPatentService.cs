@@ -1,4 +1,5 @@
 ﻿using PatentWebApiProject.DTO;
+using PatentWebApiProject.Interface;
 using PatentWebApiProject.Models;
 using PatentWebApiProject.Repository;
 
@@ -6,16 +7,17 @@ namespace PatentWebApiProject.Services
 {
     public class InternationalPatentService
     {
-        private readonly InternationalPatentRepository _repo;
+        private readonly ICrud<InternationalPatent> _repo;
+        private readonly IInPatent grant;
 
-        public InternationalPatentService(InternationalPatentRepository repo)
+       public InternationalPatentService(ICrud<InternationalPatent> inPatent, IInPatent grant)
         {
-            _repo = repo;
+            _repo = inPatent;
+            this.grant = grant;
         }
-
         public async Task<InternationalPatent> CreateInternationalPatentAsync(InternationalPatentDTO dto)
         {
-            return await _repo.CreateAsyncDTO(dto);
+            return await grant.CreateAsyncDTO(dto);
         }
 
         public async Task<IEnumerable<InternationalPatent>> GetAllInternationalPatentsAsync()
@@ -35,7 +37,12 @@ namespace PatentWebApiProject.Services
 
         public async Task<IEnumerable<InternationalPatent>> SearchByCountryAsync(string country)
         {
-            return await _repo.GetByCountryAsync(country);
+            return await grant.GetByCountryAsync(country);
+        }
+
+        public async Task<InternationalPatent?> UpdateStatusAsync(string status ,int id)
+        {
+           return await grant.UpdateStatusAsync( status, id);
         }
     }
 }

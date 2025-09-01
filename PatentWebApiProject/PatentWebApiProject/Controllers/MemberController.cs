@@ -48,7 +48,7 @@ namespace PatentWebApiProject.Controllers
                     name = mem.name,
                     email = mem.email,
                     city = mem.city,
-                    role = mem.role
+                    role = "user"
                 };
 
                 var createdMember = await _membersService.CreateAMember(member);
@@ -70,7 +70,7 @@ namespace PatentWebApiProject.Controllers
                     name = mem.name,
                     email = mem.email,
                     city = mem.city,
-                    role = mem.role
+                   
                 };
                 var updatedMember = await _membersService.UpdateAMember(member,id);
                 return Ok(updatedMember);

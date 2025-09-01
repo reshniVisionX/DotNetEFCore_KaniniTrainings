@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace PatentWebApiProject.Repository
 {
-    public class PatentGrantRepository : ICrud<PatentGrants>
+    public class PatentGrantRepository : ICrud<PatentGrants>,IGrants
     {
         private readonly PatentContext _context;
         public PatentGrantRepository(PatentContext context)
@@ -17,7 +17,7 @@ namespace PatentWebApiProject.Repository
         {
             if(!dto.patentId.HasValue)
             {
-                throw new Exception("Either patentId  provided.");
+                throw new Exception("patentId need to be provided.");
             }
             if(string.IsNullOrWhiteSpace(dto.domain))
             {
@@ -36,14 +36,18 @@ namespace PatentWebApiProject.Repository
                 
             };
            
-                var Epatent = await _context.patents.FindAsync(dto.patentId.Value);
+           var Epatent = await _context.patents.FindAsync(dto.patentId.Value);
                if (Epatent == null)
                {
                  throw new Exception($"Patent with ID {dto.patentId.Value} does not exist you cant grant this patent.");
                }
-            if (Epatent.status == "Pending")
+            if (Epatent.status == "Granted")
             {
-
+                throw new Exception($"This patent is already granted");
+            }
+            else if(Epatent.status == "Pending")
+            {
+                
                 Epatent.status = "Granted";
             }
             else

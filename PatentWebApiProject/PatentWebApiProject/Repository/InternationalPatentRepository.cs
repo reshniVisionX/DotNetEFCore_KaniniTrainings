@@ -3,10 +3,11 @@ using PatentWebApiProject.Data;
 using PatentWebApiProject.DTO;
 using PatentWebApiProject.Interface;
 using PatentWebApiProject.Models;
+using System.Globalization;
 
 namespace PatentWebApiProject.Repository
 {
-    public class InternationalPatentRepository : ICrud<InternationalPatent>
+    public class InternationalPatentRepository : ICrud<InternationalPatent>,IInPatent
     {
         private readonly PatentContext context;
 
@@ -73,6 +74,31 @@ namespace PatentWebApiProject.Repository
         public Task<InternationalPatent> UpdateAsync(InternationalPatent entity, int id)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<InternationalPatent> UpdateStatusAsync(string status,int id)
+        {
+            
+            var patent = await context.inPatents
+                                      .FirstOrDefaultAsync(p => p.ipId == id);
+
+            if (patent == null)
+                throw new Exception("Patent not found.");
+
+            if (patent.status == "Pending" && status == "Granted")
+            {
+                patent.status = "Granted";
+            }else if(status == "Rejected" && patent.status == "Pending")
+            {
+                patent.status = "Rejected";
+            }
+            else
+            {
+                throw new Exception("Invalid status transition.");
+            }
+
+            await context.SaveChangesAsync();
+            return patent;
         }
 
         public async Task<IEnumerable<InternationalPatent>> GetByCountryAsync(string country)
